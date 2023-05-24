@@ -1,0 +1,33 @@
+First create a folder wordcount on desktop 
+
+add jar file in folder
+create text file with name input.txt in wordcount folder with random text
+write a java program to run word count program using hadoop and save it as WordCount.java in the folder
+
+open terminal
+start all the node
+# start-all.sh
+go to wordcount folder directory
+# cd Desktop/
+# cd wordcount/
+
+after this compile the hadoop jar file and WordCount.java program using following command
+# javac -classpath 'hadoop jar file directory' 'WordCount.java program directory'
+
+then download words.jar file using following command
+# jar -cvf words.jar -c wordcount/ .
+
+then go to home diretory using 'cd ' command
+
+make directory on hadoop using following command
+
+# hadoop fs -mkdir /input
+put the text file in input directory using following command
+# hadoop fs -put <path of input file> /input
+# hadoop fs -ls /input
+
+run the word jar file using following command 
+<path of word jar file> classname <input path> <output path>
+# hadoop jar <path of word jar file> WordCount /input/input.txt /out203
+# hadoop fs -ls /out203
+# hadoof fs -cat /out203/part-r-00000

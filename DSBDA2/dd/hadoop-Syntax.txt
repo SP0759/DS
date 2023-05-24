@@ -1,0 +1,13 @@
+hadoop-3.2.3/bin/hdfs namenode -format
+start-all.sh
+cd Desktop/
+cd Desktop/word1/
+$ javac -classpath '/home/aniket/Desktop/word1/hadoop-core-1.2.1.jar' /'/home/aniket/Desktop/word1/WordCount.java'
+jar -cvf words.jar -c word1/ .
+cd
+fs -mkdir /input1
+hadoop fs -put input.txt/input1
+hadoop fs -ls /input1
+hadoop jar '/home/aniket/Desktop/word1/words.jar' WordCount /input1/input.txt /out532
+hadoop fs -ls /out532
+hadoop fs -cat /out532/part-r-0000

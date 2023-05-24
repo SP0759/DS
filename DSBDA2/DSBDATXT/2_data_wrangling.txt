@@ -1,0 +1,207 @@
+	Checking for missing values using isnull() and notnull()
+
+import pandas as pd
+import numpy as np
+
+df=pd.read_csv("/kaggle/input/academic/AcademicPerformance.csv")
+
+df
+
+df.isnull()
+
+series=pd.isnull(df["mathscore"])
+df[series]
+
+df.notnull()
+
+from sklearn.preprocessing import LabelEncoder
+le=LabelEncoder()
+df['gender']=le.fit_transform(df['gender'])
+newdf=df
+df
+
+
+	Filling missing values using dropna(), fillna(), replace()
+
+missing_values=["Na","na"]
+pd.read_csv("/kaggle/input/academicp/AcademicPerformance1.csv",na_values=missing_values)
+df
+
+	Filling null values with a single value
+ndf=df
+ndf.fillna(0)
+
+df['mathscore'] = df['mathscore'].fillna(df['mathscore'].mean())
+df
+
+df['mathscore'] = df['mathscore'].fillna(df['mathscore'].median())
+df
+
+df['mathscore'] = df['mathscore'].fillna(df['mathscore'].std())
+df
+
+df[''math score''] = df[''math score''].fillna(df[''math score''].min())
+df
+
+df[''math score''] = df[''math score''].fillna(df[''math score''].max())
+df
+
+
+	Filling null values in dataset
+
+m_v=df['mathscore'].mean()
+df['mathscore'].fillna(value=m_v, inplace=True)
+df
+
+
+Filling a null values using replace() method
+
+ndf.replace(to_replace = np.nan, value = -99)
+
+df.dropna()
+
+
+	Deleting null values using dropna() method
+
+df=pd.read_csv("/kaggle/input/academicp/AcademicPerformance1.csv")
+df
+ndf.dropna()
+
+
+ndf.dropna(how = 'all')
+
+ndf.dropna(axis = 1)
+
+new_data = ndf.dropna(axis = 0, how ='any')
+new_data
+
+
+
+	Detecting outliers using Boxplot:
+
+import pandas as pd
+import numpy as np
+df=pd.read_csv("/kaggle/input/academicp/AcademicPerformance1.csv")
+
+col = ['mathscore', 'readingscore' , 'writingscore','placement score']
+df.boxplot(col)
+
+print(np.where(df['mathscore']>90))
+print(np.where(df['readingscore']<25))
+print(np.where(df['writingscore']<30))
+
+
+
+
+	Detecting outliers using Scatterplot:
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+df=pd.read_csv("/kaggle/input/academicp/AcademicPerformance1.csv")
+
+fig, ax = plt.subplots(figsize = (18,10))
+ax.scatter(df['placement score'], df['placement offer count'])
+plt.show()
+
+print(np.where((df['placement score']<50) & (df['placement offer count']>1)))
+print(np.where((df['placement score']>85) & (df['placement offer count']<3)))
+
+
+	Detecting outliers using Z-Score:
+
+import numpy as np
+from scipy import stats
+
+z = np.abs(stats.zscore(df['mathscore']))
+
+print(z)
+
+threshold = 0.18
+
+sample_outliers = np.where(z <threshold)
+sample_outliers
+
+
+
+	Detecting outliers using Inter Quantile Range(IQR):
+
+import numpy as np
+
+sorted_rscore= sorted(df['readingscore'])
+
+sorted_rscore
+
+q1 = np.percentile(sorted_rscore, 25)
+q3 = np.percentile(sorted_rscore, 75)
+print(q1,q3)
+
+IQR = q3-q1
+
+lwr_bound = q1-(1.5*IQR)
+upr_bound = q3+(1.5*IQR)
+print(lwr_bound, upr_bound)
+
+r_outliers = []
+for i in sorted_rscore:
+    if (i<lwr_bound or i>upr_bound):
+        r_outliers.append(i)
+print(r_outliers)
+
+new_df=df
+for i in sample_outliers:
+    new_df.drop(i,inplace=True)
+new_df
+
+
+
+
+	Quantile based flooring and capping:
+
+df=pd.read_csv("/demo.csv")
+df_stud=df
+ninetieth_percentile = np.percentile(df_stud['math score'], 90)
+b = np.where(df_stud['math score']>ninetieth_percentile,
+ninetieth_percentile, df_stud['math score'])
+print("New array:",b)
+
+df_stud.insert(1,"m score",b,True)
+df_stud
+
+
+Mean/Median imputation:
+
+col = ['reading score']
+df.boxplot(col)
+
+median=np.median(sorted_rscore)
+median
+
+refined_df=df
+refined_df['reading score'] = np.where(refined_df['reading
+score'] >upr_bound, median,refined_df['reading score'])
+
+redefined_df
+
+refined_df['reading score'] = np.where(refined_df['reading
+score'] <lwr_bound, median,refined_df['reading score'])
+
+redefined_df
+
+col = ['reading score']
+refined_df.boxplot(col)
+
+
+
+To decrease the skewness and convert distribution into normal distribution
+(Normalization by decimal scaling)
+
+import matplotlib.pyplot as plt
+new_df['math score'].plot(kind = 'hist')
+
+df['log_math'] = np.log10(df['math score'])
+
+df['log_math'].plot(kind = 'hist')
+
+
+

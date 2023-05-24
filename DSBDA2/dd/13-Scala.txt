@@ -1,0 +1,23 @@
+object Sample{
+  def main(args:Array[String]){
+    var num:Int = 0;
+    print("Enter number : ")
+    num=scala.io.stdIn.readInt()
+    if(num>=0)
+      println(num,"Number is POSITIVE")
+     else
+      println("Number is NEGATIVE")
+    }
+ }
+ 
+ 
+ 
+ #spark-shell
+ #shri.scala
+ #sample.main(Array())
+ 
+ 
+ 
+ 
+ 
+ 
